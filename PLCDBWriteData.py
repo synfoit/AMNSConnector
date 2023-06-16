@@ -3,6 +3,9 @@ import snap7
 from snap7.util import *
 from snap7.types import *
 
+from loggerFile import LoggerData
+
+
 class PLCDBWriteData:
     def WriteMemory(self, plc, DB_NUMBER, START_ADDRESS, SIZE,datatype,value):
         # define read memory function
@@ -49,5 +52,6 @@ class PLCDBWriteData:
             self.WriteMemory(plc, 111, 36, 4, S7WLReal, t1)
             self.WriteMemory(plc, 111, 40, 4, S7WLReal, t2)
         except:
+            LoggerData().logger.error("PLC write loss connection")
             self.WriteData(thinkness1avg,thinkness2avg,slab1avg,slab2avg,p1,p2,p3,p4,p5,t1,t2)
 

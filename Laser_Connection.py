@@ -5,6 +5,10 @@ import time
 
 # import the threading module
 from threading import Thread
+
+from loggerFile import LoggerData
+
+
 class LaserMainCode(Thread):
 
     def laserData(self):
@@ -59,6 +63,7 @@ class LaserMainCode(Thread):
                 client.disconnect()
                 time.sleep(1)
         except:
+            LoggerData().logger.error("Laser loss connection")
             self.laserData()
 
     def run(self) -> None:

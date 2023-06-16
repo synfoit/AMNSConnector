@@ -6,6 +6,8 @@ from snap7.exceptions import Snap7Exception
 from snap7.util import *
 from snap7.types import *
 
+from loggerFile import LoggerData
+
 
 class PLC_DB_Connection(Thread):
 
@@ -117,6 +119,7 @@ class PLC_DB_Connection(Thread):
                 slabNumner=slab_no
                 time.sleep(1)
         except:
+            LoggerData().logger.error("PLC loss connection")
             self.ReadData()
 
     def run(self) -> None:

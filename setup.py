@@ -43,9 +43,9 @@ executables= [cx_Freeze.Executable("main.py",base=base)]
 
 
 setup(
-    name="RPL",
+    name="AMNS",
     version="0.1",
-    description="An example wxPython script",
+    description="AMNS DATA logger",
     options={"build_exe": {"packages":["snap7","threading","time","datetime","json","os","opcua","numpy"]}},
     executables=executables
     )

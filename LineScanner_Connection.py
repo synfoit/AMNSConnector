@@ -8,6 +8,7 @@ import os
 import time
 from datetime import datetime
 from PLCDBWriteData import PLCDBWriteData
+from loggerFile import LoggerData
 
 
 class LineScanner(Thread):
@@ -249,7 +250,7 @@ class LineScanner(Thread):
                 with open(userPath + '/.amns/MergeFiles/Slab_S1_S2_' + oneDateFile + '.txt', 'a') as f:
                     f.write(removeBracket + '\n')
         except:
-            # print("exxx")
+            LoggerData().logger.error("Line Laser loss connection")
             self.getDataFromScanner()
 
     def convertTranform(self, filepath, newfilepath):

@@ -5,8 +5,6 @@ from LineScanner_Connection import LineScanner
 from PLC_DB_Connection import PLC_DB_Connection
 
 
-
-
 plc = PLC_DB_Connection()
 plc.start()
 ls = LineScanner()
