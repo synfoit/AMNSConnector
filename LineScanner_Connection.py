@@ -16,6 +16,19 @@ class LineScanner(Thread):
     def __init__(self):
         super().__init__()
 
+    def largest(self,arr, n):
+
+        # Initialize maximum element
+        max = arr[0]
+
+        # Traverse array elements from second
+        # and compare every element with
+        # current max
+        for i in range(1, n):
+            if arr[i] > max:
+                max = arr[i]
+        return max
+
     def Convert(self, removeUnwantedContentS1S2):
         li = list(removeUnwantedContentS1S2.split(" "))
         return li
@@ -52,18 +65,13 @@ class LineScanner(Thread):
                 InternalTemperaturescanner2 = InternalTemperaturescanner2.get_value()
 
                 # Avg Max Value -- Start
-                automatic_sector_max_scanner1 = client.get_node("ns=1;s=AutomaticSector.max")
-                automatic_sector_max_temp_scanner1 = automatic_sector_max_scanner1.get_value()
+                # automatic_sector_max_scanner1 = client.get_node("ns=1;s=AutomaticSector.max")
+                # automatic_sector_max_temp_scanner1 = automatic_sector_max_scanner1.get_value()
+                #
+                # automatic_sector_max_scanner2 = client.get_node("ns=2;s=AutomaticSector.max")
+                # automatic_sector_max_temp_scanner2 = automatic_sector_max_scanner2.get_value()
 
-                automatic_sector_max_scanner2 = client.get_node("ns=2;s=AutomaticSector.max")
-                automatic_sector_max_temp_scanner2 = automatic_sector_max_scanner2.get_value()
 
-                max_temp = (automatic_sector_max_temp_scanner1 + automatic_sector_max_temp_scanner2) / 2
-
-                max_temp_value = round(max_temp, 2)
-
-                with open(userPath + '/.amns/LiveData/MaxAvgValue.txt', 'a') as f:
-                    f.write(str(max_temp_value) + '\n')
                 # Avg Max Value -- End
                 # -----------------------------------------------------------------------------------------------------------
                 # Line Data of Scanner -- Start
@@ -71,9 +79,12 @@ class LineScanner(Thread):
                 LastLineTempScanner1 = LastLineScanner1.get_value()
                 actualFloatArrayDataOfScanner1 = np.array(LastLineTempScanner1)
                 roundOffScanner1Value = np.round_(actualFloatArrayDataOfScanner1)
-                data = roundOffScanner1Value.tolist()
+                data1 = roundOffScanner1Value.tolist()
+
+                n = len(data1)
+                automatic_sector_max_temp_scanner1 = self.largest(data1, n)
                 # print("data",data)
-                removeUnwantedContentS1 = str(data).replace(".0", "").replace('[', '').replace(']', '').replace(',', '')
+                removeUnwantedContentS1 = str(data1).replace(".0", "").replace('[', '').replace(']', '').replace(',', '')
                 # print("LastLineScanner1", len(LastLineScanner1))
                 # print("LastLineTempScanner1", removeUnwantedContentS1)
                 # print("removeUnwantedContentS1", removeUnwantedContentS1)
@@ -123,6 +134,15 @@ class LineScanner(Thread):
 
                 data2 = roundOffScanner2Value.tolist()
 
+                n = len(data2)
+                automatic_sector_max_temp_scanner2 = self.largest(data2, n)
+
+                max_temp = (automatic_sector_max_temp_scanner1 + automatic_sector_max_temp_scanner2) / 2
+
+                max_temp_value = round(max_temp, 2)
+
+                with open(userPath + '/.amns/LiveData/MaxAvgValue.txt', 'a') as f:
+                    f.write(str(max_temp_value) + '\n')
                 removeUnwantedContentS2 = str(data2).replace(".0", "").replace('[', '').replace(']', '').replace(',','')
                 #print("removeUnwantedContentS2",removeUnwantedContentS2)
                 datasave2 = self.Convert(removeUnwantedContentS2)
